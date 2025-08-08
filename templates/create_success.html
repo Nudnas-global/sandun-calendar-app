@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Event Created - Research Team Calendar{% endblock %}
+
+{% block content %}
+<h1 class="page-title icon-check">Event Created Successfully!</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Your event is ready</h2>
+    </div>
+    <div class="card-content">
+        <p>Your event has been created. Share the link below with your collaborators so they can mark their availability.</p>
+        
+        <div class="share-section">
+            <h3 class="icon-link">Share this link with your team:</h3>
+            <code class="share-link-url">{{ url_for('invite', event_id=event_id, _external=True) }}</code>
+            <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.875rem;">
+                Anyone with this link can respond with their availability. No account required.
+            </p>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+            <a href="{{ url_for('event_details', event_id=event_id) }}" class="btn">View Event Details</a>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary icon-home">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Create Event - Research Team Calendar{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ url_for('index') }}">Home</a> / Create Event
+</div>
+
+<h1 class="page-title icon-plus">Create New Event</h1>
+<p class="page-subtitle">Schedule a meeting, teaching session, or research activity</p>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flash">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Event Details</h2>
+    </div>
+    <div class="card-content">
+        <form method="post">
+            <div class="form-group">
+                <label class="form-label" for="title">Event Title *</label>
+                <input type="text" id="title" name="title" class="form-input" 
+                       placeholder="Weekly lab meeting, office hours, dissertation defense..." required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="datetime">Date and Time *</label>
+                <input type="datetime-local" id="datetime" name="datetime" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="description">Description (Optional)</label>
+                <textarea id="description" name="description" class="form-input form-textarea" 
+                          placeholder="Meeting agenda, location details, preparation instructions, Zoom link..."></textarea>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button type="submit" class="btn icon-plus">Create Event</button>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary icon-home">Back to Home</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

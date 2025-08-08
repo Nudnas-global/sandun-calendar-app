@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Calendar View - Research Team Calendar{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ url_for('index') }}">Home</a> / Calendar View
+</div>
+
+<h1 class="page-title icon-calendar">Calendar View</h1>
+<p class="page-subtitle">All scheduled events and activities</p>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">All Events</h2>
+    </div>
+    <div class="card-content">
+        {% if events %}
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Date & Time</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events %}
+                        <tr>
+                            <td><strong>{{ event['title'] }}</strong></td>
+                            <td>{{ event['datetime'] }}</td>
+                            <td>{{ event['description'][:100] + '...' if event['description'] and event['description']|length > 100 else (event['description'] or 'No description') }}</td>
+                            <td>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                    <a href="{{ url_for('event_details', event_id=event['id']) }}" class="link">Details</a>
+                                    <a href="{{ url_for('invite', event_id=event['id']) }}" class="link icon-link">Share</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">📅</div>
+                <h3>No events scheduled</h3>
+                <p>Create your first event to get started.</p>
+                <a href="{{ url_for('create_event') }}" class="btn icon-plus" style="margin-top: 1rem;">Create Event</a>
+            </div>
+        {% endif %}
+        
+        <div style="margin-top: 1.5rem;">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary icon-home">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

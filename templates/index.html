@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Sandun's Calendar{% endblock %}
+
+{% block content %}
+<h1 class="page-title icon-calendar">Team Calendar</h1>
+<p class="page-subtitle">Coordinate meetings, teaching sessions, and research activities with my team</p>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Upcoming Events</h2>
+    </div>
+    <div class="card-content">
+        {% if events %}
+            <div class="event-list">
+                {% for event in events %}
+                <div class="event-item">
+                    <h3 class="event-title">{{ event['title'] }}</h3>
+                    <div class="event-meta">
+                        <span class="icon-time">{{ event['datetime'] }}</span>
+                    </div>
+                    <div class="event-actions">
+                        <a href="{{ url_for('event_details', event_id=event['id']) }}" class="link">View Details</a>
+                        <a href="{{ url_for('invite', event_id=event['id']) }}" class="link icon-link">Share</a>
+                        <form method="post" action="{{ url_for('delete_event', event_id=event['id']) }}" 
+                              style="display: inline;" 
+                              onsubmit="return confirm('Delete {{ event.title }}?')">
+                            <button type="submit" class="link" style="background: none; border: none; color: var(--danger-color); cursor: pointer; font-weight: 500;">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">📅</div>
+                <h3>No events scheduled yet</h3>
+                <p>Create your first event to start coordinating with your team.</p>
+                <a href="{{ url_for('create_event') }}" class="btn icon-plus" style="margin-top: 1rem;">Create Your First Event</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

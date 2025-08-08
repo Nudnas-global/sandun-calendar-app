@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Respond to {{ event['title'] }} - Research Team Calendar{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Respond to Event</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">{{ event['title'] }}</h2>
+    </div>
+    <div class="card-content">
+        <div style="display: grid; gap: 1rem; margin-bottom: 1.5rem; padding: 1rem; background: #f8fafc; border-radius: 0.5rem;">
+            <div><strong class="icon-time">Scheduled Time:</strong> {{ event['datetime'] }}</div>
+            {% if event['description'] %}
+            <div>
+                <strong>Details:</strong><br>
+                <div style="margin-top: 0.5rem; white-space: pre-wrap;">{{ event['description'] }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Your Availability</h2>
+    </div>
+    <div class="card-content">
+        <form method="post">
+            <div class="form-group">
+                <label class="form-label" for="name">Your Name *</label>
+                <input type="text" id="name" name="name" class="form-input" 
+                       placeholder="Your full name" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label" for="start">Available From *</label>
+                    <input type="datetime-local" id="start" name="start" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="end">Available Until *</label>
+                    <input type="datetime-local" id="end" name="end" class="form-input" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="description">Notes (Optional)</label>
+                <textarea id="description" name="description" class="form-input form-textarea" 
+                          placeholder="Any constraints, preferences, or additional information..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button type="submit" class="btn icon-check">Submit Availability</button>
+                <a href="{{ url_for('event_details', event_id=event['id']) }}" class="btn btn-secondary">View All Responses</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

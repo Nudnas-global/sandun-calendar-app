@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Thank You - Research Team Calendar{% endblock %}
+
+{% block content %}
+<h1 class="page-title icon-check">Thank You for Responding!</h1>
+
+<div class="card">
+    <div class="card-content">
+        <div style="text-align: center; padding: 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+            <h2>Your availability has been recorded</h2>
+            <p style="color: var(--text-secondary); margin: 1rem 0;">
+                Thank you for responding to <strong>{{ event['title'] }}</strong>. 
+                The event organizer can now see your availability.
+            </p>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                <a href="{{ url_for('event_details', event_id=event['id']) }}" class="btn">View All Responses</a>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary icon-home">View All Events</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

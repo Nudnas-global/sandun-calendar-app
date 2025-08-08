@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event['title'] }} - Research Team Calendar{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="{{ url_for('index') }}">Home</a> / {{ event['title'] }}
+</div>
+
+<h1 class="page-title">{{ event['title'] }}</h1>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Event Information</h2>
+    </div>
+    <div class="card-content">
+        <div style="display: grid; gap: 1rem; margin-bottom: 1.5rem;">
+            <div>
+                <strong class="icon-time">Date & Time:</strong> {{ event['datetime'] }}
+            </div>
+            {% if event['description'] %}
+            <div>
+                <strong>Description:</strong><br>
+                <div style="margin-top: 0.5rem; padding: 1rem; background: #f8fafc; border-radius: 0.5rem; white-space: pre-wrap;">{{ event['description'] }}</div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="share-section">
+            <h3 class="icon-link">Invite others to respond:</h3>
+            <code class="share-link-url">{{ url_for('invite', event_id=event['id'], _external=True) }}</code>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title icon-users">Availability Responses ({{ responses|length }})</h2>
+    </div>
+    <div class="card-content">
+        {% if responses %}
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Available From</th>
+                            <th>Available Until</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resp in responses %}
+                        <tr>
+                            <td><strong>{{ resp['name'] }}</strong></td>
+                            <td>{{ resp['available_start'] }}</td>
+                            <td>{{ resp['available_end'] }}</td>
+                            <td>{{ resp['description'] or 'No notes' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">👥</div>
+                <h3>No responses yet</h3>
+                <p>Share the invite link above to collect availability from your team.</p>
+            </div>
+        {% endif %}
+        
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+            <a href="{{ url_for('invite', event_id=event['id']) }}" class="btn icon-link">Add Your Availability</a>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary icon-home">Back to Home</a>
+            <form method="post" action="{{ url_for('delete_event', event_id=event['id']) }}" 
+                  style="display: inline;" 
+                  onsubmit="return confirm('Are you sure you want to delete this event? This action cannot be undone.')">
+                <button type="submit" class="btn" style="background: var(--danger-color);">🗑️ Delete Event</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
